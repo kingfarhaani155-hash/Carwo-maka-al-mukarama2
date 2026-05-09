@@ -1,0 +1,2252 @@
+<!DOCTYPE html>
+<html lang="so">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MAKA AL MUKARAMA | Dukaan Dharka & Kabaha</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #F0D080;
+    --gold-dark: #8B6914;
+    --deep: #0A0A0F;
+    --dark: #12121A;
+    --darker: #0D0D14;
+    --card-bg: #16161F;
+    --card-border: #2A2A3A;
+    --text: #E8E0CC;
+    --text-muted: #9A9080;
+    --accent: #E63946;
+    --accent2: #4ECDC4;
+    --green: #2ECC71;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--deep);
+    color: var(--text);
+    font-family: 'Cairo', sans-serif;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* CUSTOM CURSOR */
+  .cursor {
+    width: 12px; height: 12px;
+    background: var(--gold);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 99999;
+    transition: transform 0.1s;
+    mix-blend-mode: screen;
+  }
+  .cursor-trail {
+    width: 30px; height: 30px;
+    border: 1px solid var(--gold);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 99998;
+    transition: all 0.3s ease;
+    mix-blend-mode: screen;
+  }
+
+  /* PARTICLES */
+  #particles-canvas {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  /* ===== HEADER / NAVBAR ===== */
+  header {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 1000;
+    background: linear-gradient(135deg, rgba(10,10,15,0.97) 0%, rgba(18,18,26,0.97) 100%);
+    border-bottom: 1px solid rgba(201,168,76,0.3);
+    backdrop-filter: blur(20px);
+    padding: 0 40px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 4px 40px rgba(0,0,0,0.5);
+  }
+
+  /* LOGO - FROZEN, NON-SCROLLING */
+  .logo-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 1;
+  }
+
+  .logo-arabic {
+    font-family: 'Amiri', serif;
+    font-size: 11px;
+    color: var(--gold-light);
+    letter-spacing: 3px;
+    opacity: 0.7;
+    text-transform: uppercase;
+  }
+
+  .logo-main {
+    font-family: 'Cinzel Decorative', cursive;
+    font-size: 18px;
+    font-weight: 900;
+    background: linear-gradient(90deg, var(--gold-dark), var(--gold), var(--gold-light), var(--gold), var(--gold-dark));
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: shimmer 3s linear infinite;
+    letter-spacing: 2px;
+    white-space: nowrap;
+  }
+
+  .logo-sub {
+    font-family: 'Cairo', sans-serif;
+    font-size: 8px;
+    color: var(--gold);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    opacity: 0.6;
+  }
+
+  @keyframes shimmer {
+    0% { background-position: 0% center; }
+    100% { background-position: 200% center; }
+  }
+
+  nav {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+  }
+
+  nav a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 8px 14px;
+    border-radius: 6px;
+    transition: all 0.3s;
+    letter-spacing: 0.5px;
+    position: relative;
+  }
+
+  nav a::after {
+    content: '';
+    position: absolute;
+    bottom: 2px; left: 50%; right: 50%;
+    height: 1px;
+    background: var(--gold);
+    transition: all 0.3s;
+  }
+
+  nav a:hover {
+    color: var(--gold);
+  }
+  nav a:hover::after {
+    left: 14px; right: 14px;
+  }
+
+  .nav-cart {
+    background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+    color: var(--deep) !important;
+    border-radius: 8px !important;
+    font-weight: 700 !important;
+  }
+  .nav-cart:hover { opacity: 0.9; transform: scale(1.05); }
+
+  .cart-badge {
+    background: var(--accent);
+    color: white;
+    border-radius: 50%;
+    width: 18px; height: 18px;
+    font-size: 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 4px;
+  }
+
+  /* ===== HERO ===== */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    background: radial-gradient(ellipse at 50% 50%, #1a1410 0%, #0A0A0F 70%);
+    padding-top: 80px;
+  }
+
+  .hero-bg-pattern {
+    position: absolute;
+    inset: 0;
+    background-image:
+      repeating-linear-gradient(45deg, transparent, transparent 40px, rgba(201,168,76,0.02) 40px, rgba(201,168,76,0.02) 41px),
+      repeating-linear-gradient(-45deg, transparent, transparent 40px, rgba(201,168,76,0.02) 40px, rgba(201,168,76,0.02) 41px);
+  }
+
+  .hero-glow {
+    position: absolute;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(201,168,76,0.08) 0%, transparent 70%);
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    animation: pulse-glow 4s ease-in-out infinite;
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
+    50% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    max-width: 900px;
+    padding: 0 20px;
+  }
+
+  .hero-badge {
+    display: inline-block;
+    background: rgba(201,168,76,0.1);
+    border: 1px solid rgba(201,168,76,0.3);
+    color: var(--gold);
+    padding: 8px 24px;
+    border-radius: 30px;
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 30px;
+    animation: fadeInDown 1s ease both;
+  }
+
+  .hero-title {
+    font-family: 'Cinzel Decorative', cursive;
+    font-size: clamp(36px, 7vw, 90px);
+    font-weight: 900;
+    line-height: 1.1;
+    margin-bottom: 20px;
+    animation: fadeInUp 1s ease 0.2s both;
+  }
+
+  .hero-title .line1 {
+    background: linear-gradient(135deg, var(--gold-light), var(--gold), var(--gold-dark));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    display: block;
+  }
+
+  .hero-title .line2 {
+    color: white;
+    display: block;
+    font-size: 0.55em;
+    letter-spacing: 8px;
+    text-transform: uppercase;
+    margin-top: 5px;
+  }
+
+  .hero-sub {
+    font-size: 16px;
+    color: var(--text-muted);
+    margin-bottom: 50px;
+    line-height: 1.8;
+    animation: fadeInUp 1s ease 0.4s both;
+    font-family: 'Amiri', serif;
+    font-size: 20px;
+  }
+
+  .hero-btns {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+    animation: fadeInUp 1s ease 0.6s both;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, var(--gold-dark), var(--gold), var(--gold-light));
+    color: var(--deep);
+    padding: 16px 40px;
+    border-radius: 50px;
+    font-weight: 900;
+    font-size: 14px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 0 30px rgba(201,168,76,0.3);
+    font-family: 'Cairo', sans-serif;
+  }
+  .btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 40px rgba(201,168,76,0.5);
+  }
+
+  .btn-outline {
+    background: transparent;
+    color: var(--gold);
+    padding: 16px 40px;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 1px solid rgba(201,168,76,0.5);
+    cursor: pointer;
+    transition: all 0.3s;
+    font-family: 'Cairo', sans-serif;
+  }
+  .btn-outline:hover {
+    background: rgba(201,168,76,0.1);
+    border-color: var(--gold);
+    transform: translateY(-3px);
+  }
+
+  /* Hero Stats */
+  .hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: 60px;
+    margin-top: 80px;
+    animation: fadeInUp 1s ease 0.8s both;
+    flex-wrap: wrap;
+  }
+  .stat-item { text-align: center; }
+  .stat-number {
+    font-family: 'Cinzel Decorative', cursive;
+    font-size: 32px;
+    font-weight: 900;
+    color: var(--gold);
+    display: block;
+  }
+  .stat-label {
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  /* ===== TICKER ===== */
+  .ticker-wrap {
+    background: linear-gradient(90deg, var(--gold-dark), var(--gold), var(--gold-dark));
+    padding: 12px 0;
+    overflow: hidden;
+    position: relative;
+    z-index: 5;
+  }
+  .ticker-content {
+    display: flex;
+    gap: 0;
+    animation: ticker 30s linear infinite;
+    white-space: nowrap;
+  }
+  .ticker-item {
+    padding: 0 40px;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    color: var(--deep);
+    letter-spacing: 1px;
+  }
+  .ticker-item i { margin-right: 8px; }
+  @keyframes ticker {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* ===== SECTION HEADERS ===== */
+  .section {
+    padding: 100px 40px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 70px;
+  }
+
+  .section-eyebrow {
+    font-size: 11px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 15px;
+    display: block;
+  }
+
+  .section-title {
+    font-family: 'Cinzel Decorative', cursive;
+    font-size: clamp(24px, 4vw, 48px);
+    font-weight: 700;
+    color: white;
+    margin-bottom: 15px;
+    line-height: 1.2;
+  }
+
+  .section-title span {
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .section-line {
+    width: 60px; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 0 auto;
+  }
+
+  /* ===== INVENTORY BAR ===== */
+  .inventory-bar {
+    background: linear-gradient(135deg, var(--card-bg), rgba(201,168,76,0.05));
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    padding: 30px 40px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 30px;
+    flex-wrap: wrap;
+    margin-bottom: 60px;
+  }
+
+  .inv-item {
+    text-align: center;
+  }
+  .inv-count {
+    font-family: 'Cinzel Decorative', cursive;
+    font-size: 28px;
+    color: var(--gold);
+    display: block;
+    line-height: 1;
+  }
+  .inv-label {
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-top: 5px;
+  }
+  .inv-progress {
+    width: 100px;
+    height: 4px;
+    background: var(--card-border);
+    border-radius: 2px;
+    margin: 8px auto 0;
+    overflow: hidden;
+  }
+  .inv-bar {
+    height: 100%;
+    border-radius: 2px;
+    background: linear-gradient(90deg, var(--gold-dark), var(--gold));
+    transition: width 1.5s ease;
+  }
+
+  /* ===== PROMO BANNER ===== */
+  .promo-banner {
+    background: linear-gradient(135deg, #1a0a0a, #2a1010, #1a0a0a);
+    border: 1px solid rgba(230,57,70,0.3);
+    border-radius: 16px;
+    padding: 25px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 60px;
+    flex-wrap: wrap;
+    gap: 20px;
+    animation: promo-pulse 3s ease-in-out infinite;
+  }
+  @keyframes promo-pulse {
+    0%, 100% { box-shadow: 0 0 20px rgba(230,57,70,0.1); }
+    50% { box-shadow: 0 0 40px rgba(230,57,70,0.3); }
+  }
+  .promo-text {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .promo-icon {
+    font-size: 36px;
+    animation: bounce 1s ease infinite;
+  }
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+  .promo-title {
+    font-family: 'Cinzel Decorative', cursive;
+    font-size: 20px;
+    color: var(--accent);
+    font-weight: 900;
+  }
+  .promo-desc {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-top: 3px;
+  }
+  .countdown {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+  }
+  .cd-block {
+    text-align: center;
+    background: rgba(230,57,70,0.1);
+    border: 1px solid rgba(230,57,70,0.2);
+    padding: 10px 18px;
+    border-radius: 10px;
+  }
+  .cd-num {
+    font-family: 'Cinzel Decorative', cursive;
+    font-size: 22px;
+    color: var(--accent);
+    display: block;
+    line-height: 1;
+  }
+  .cd-label { font-size: 9px; color: var(--text-muted); letter-spacing: 2px; }
+
+  /* ===== FILTER TABS ===== */
+  .filter-tabs {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 50px;
+  }
+  .filter-tab {
+    padding: 10px 24px;
+    border-radius: 30px;
+    background: transparent;
+    border: 1px solid var(--card-border);
+    color: var(--text-muted);
+    font-family: 'Cairo', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    letter-spacing: 1px;
+  }
+  .filter-tab:hover, .filter-tab.active {
+    background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+    color: var(--deep);
+    border-color: transparent;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(201,168,76,0.3);
+  }
+
+  /* ===== PRODUCT GRID ===== */
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 30px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .product-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 20px;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    cursor: pointer;
+  }
+
+  .product-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    border-color: rgba(201,168,76,0.5);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 30px rgba(201,168,76,0.1);
+  }
+
+  .product-badge {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .badge {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .badge-sale { background: var(--accent); color: white; }
+  .badge-new { background: var(--accent2); color: var(--deep); }
+  .badge-hot { background: linear-gradient(90deg, #ff6b35, #f7c59f); color: var(--deep); }
+  .badge-traditional { background: linear-gradient(90deg, var(--gold-dark), var(--gold)); color: var(--deep); }
+
+  .product-wishlist {
+    position: absolute;
+    top: 15px; right: 15px;
+    z-index: 3;
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: rgba(10,10,15,0.8);
+    border: 1px solid var(--card-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    color: var(--text-muted);
+    font-size: 14px;
+  }
+  .product-wishlist:hover, .product-wishlist.active {
+    background: rgba(230,57,70,0.2);
+    border-color: var(--accent);
+    color: var(--accent);
+    transform: scale(1.1);
+  }
+
+  .product-img-wrap {
+    height: 260px;
+    overflow: hidden;
+    position: relative;
+    background: linear-gradient(135deg, #1a1a25, #12121a);
+  }
+
+  .product-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+
+  .product-card:hover .product-img-wrap img {
+    transform: scale(1.1);
+  }
+
+  .product-img-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(10,10,15,0.8) 0%, transparent 50%);
+  }
+
+  .product-emoji {
+    font-size: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    position: relative;
+    z-index: 2;
+    transition: transform 0.5s;
+  }
+  .product-card:hover .product-emoji { transform: scale(1.1) rotate(5deg); }
+
+  .product-stock {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    font-size: 10px;
+    padding: 4px 10px;
+    border-radius: 10px;
+    font-weight: 700;
+    z-index: 3;
+  }
+  .stock-available { background: rgba(46,204,113,0.2); color: var(--green); border: 1px solid rgba(46,204,113,0.3); }
+  .stock-low { background: rgba(230,57,70,0.2); color: var(--accent); border: 1px solid rgba(230,57,70,0.3); }
+
+  .product-body {
+    padding: 20px;
+  }
+
+  .product-cat {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+
+  .product-name {
+    font-family: 'Cairo', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 8px;
+    line-height: 1.3;
+  }
+
+  .product-desc {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 15px;
+    line-height: 1.5;
+  }
+
+  .product-stars {
+    color: var(--gold);
+    font-size: 12px;
+    margin-bottom: 12px;
+    letter-spacing: 2px;
+  }
+  .product-stars span {
+    color: var(--text-muted);
+    font-size: 11px;
+    margin-left: 5px;
+  }
+
+  .product-pricing {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+  }
+
+  .price-block { display: flex; flex-direction: column; }
+  .price-original {
+    font-size: 12px;
+    color: var(--text-muted);
+    text-decoration: line-through;
+  }
+  .price-current {
+    font-family: 'Cinzel Decorative', cursive;
+    font-size: 20px;
+    color: var(--gold);
+    font-weight: 700;
+    line-height: 1;
+  }
+  .price-discount {
+    background: rgba(230,57,70,0.15);
+    border: 1px solid rgba(230,57,70,0.3);
+    color: var(--accent);
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+  }
+
+  .product-actions {
+    display: flex;
+    gap: 10px;
+  }
+
+  .btn-add-cart {
+    flex: 1;
+    background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+    color: var(--deep);
+    border: none;
+    border-radius: 10px;
+    padding: 12px;
+    font-family: 'Cairo', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s;
+    letter-spacing: 1px;
+  }
+  .btn-add-cart:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(201,168,76,0.4);
+  }
+  .btn-add-cart:active { transform: scale(0.96); }
+
+  .btn-quick-view {
+    width: 42px;
+    background: var(--card-border);
+    border: 1px solid rgba(201,168,76,0.2);
+    color: var(--gold);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-size: 14px;
+  }
+  .btn-quick-view:hover {
+    background: rgba(201,168,76,0.1);
+    transform: translateY(-2px);
+  }
+
+  /* ===== FEATURES ===== */
+  .features-section {
+    background: linear-gradient(135deg, var(--darker), #131320);
+    border-top: 1px solid var(--card-border);
+    border-bottom: 1px solid var(--card-border);
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .feature-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 20px;
+    padding: 40px 30px;
+    text-align: center;
+    transition: all 0.4s;
+    position: relative;
+    overflow: hidden;
+  }
+  .feature-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at center, rgba(201,168,76,0.05) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+  .feature-card:hover::before { opacity: 1; }
+  .feature-card:hover {
+    border-color: rgba(201,168,76,0.3);
+    transform: translateY(-5px);
+  }
+
+  .feature-icon {
+    width: 70px; height: 70px;
+    border-radius: 20px;
+    background: linear-gradient(135deg, rgba(201,168,76,0.1), rgba(201,168,76,0.05));
+    border: 1px solid rgba(201,168,76,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    margin: 0 auto 20px;
+    transition: all 0.3s;
+  }
+  .feature-card:hover .feature-icon {
+    background: linear-gradient(135deg, rgba(201,168,76,0.2), rgba(201,168,76,0.1));
+    box-shadow: 0 0 20px rgba(201,168,76,0.2);
+  }
+
+  .feature-title {
+    font-family: 'Cairo', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 10px;
+  }
+  .feature-desc {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  /* ===== TESTIMONIALS ===== */
+  .testimonials-section {
+    background: radial-gradient(ellipse at center, rgba(201,168,76,0.03) 0%, transparent 70%);
+  }
+
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .testimonial-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 20px;
+    padding: 35px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s;
+  }
+  .testimonial-card:hover {
+    border-color: rgba(201,168,76,0.3);
+    transform: translateY(-5px);
+  }
+  .testimonial-card::before {
+    content: '"';
+    position: absolute;
+    top: 15px; right: 25px;
+    font-size: 80px;
+    font-family: 'Amiri', serif;
+    color: rgba(201,168,76,0.1);
+    line-height: 1;
+  }
+
+  .testimonial-stars { color: var(--gold); margin-bottom: 15px; letter-spacing: 3px; }
+  .testimonial-text {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.8;
+    margin-bottom: 20px;
+    font-family: 'Amiri', serif;
+    font-size: 16px;
+  }
+  .testimonial-author {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+  .author-avatar {
+    width: 45px; height: 45px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    color: var(--deep);
+    font-size: 16px;
+  }
+  .author-name { font-weight: 700; color: white; font-size: 14px; }
+  .author-loc { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+
+  /* ===== CONTACT ===== */
+  .contact-section {
+    background: linear-gradient(135deg, var(--darker), rgba(201,168,76,0.03));
+    border-top: 1px solid var(--card-border);
+  }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 768px) {
+    .contact-grid { grid-template-columns: 1fr; }
+    nav { display: none; }
+    .products-grid { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+  }
+
+  .contact-info h3 {
+    font-family: 'Cinzel Decorative', cursive;
+    font-size: 28px;
+    color: white;
+    margin-bottom: 15px;
+  }
+  .contact-info p {
+    color: var(--text-muted);
+    line-height: 1.8;
+    margin-bottom: 35px;
+    font-family: 'Amiri', serif;
+    font-size: 17px;
+  }
+
+  .contact-item {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 15px;
+    margin-bottom: 15px;
+    transition: all 0.3s;
+    text-decoration: none;
+  }
+  .contact-item:hover {
+    border-color: rgba(201,168,76,0.4);
+    background: rgba(201,168,76,0.05);
+    transform: translateX(5px);
+  }
+
+  .contact-icon {
+    width: 50px; height: 50px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+  .ci-phone { background: rgba(46,204,113,0.15); color: var(--green); border: 1px solid rgba(46,204,113,0.2); }
+  .ci-email { background: rgba(201,168,76,0.15); color: var(--gold); border: 1px solid rgba(201,168,76,0.2); }
+  .ci-wa { background: rgba(37,211,102,0.15); color: #25D366; border: 1px solid rgba(37,211,102,0.2); }
+
+  .contact-text { color: white; font-weight: 600; font-size: 14px; }
+  .contact-sub { color: var(--text-muted); font-size: 11px; margin-top: 2px; }
+
+  /* Contact Form */
+  .contact-form-wrap {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 20px;
+    padding: 40px;
+  }
+  .form-group { margin-bottom: 20px; }
+  .form-group label {
+    display: block;
+    font-size: 12px;
+    color: var(--gold);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+  .form-group input, .form-group textarea, .form-group select {
+    width: 100%;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
+    padding: 14px 18px;
+    color: var(--text);
+    font-family: 'Cairo', sans-serif;
+    font-size: 14px;
+    transition: all 0.3s;
+    outline: none;
+  }
+  .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+    border-color: rgba(201,168,76,0.5);
+    background: rgba(201,168,76,0.03);
+    box-shadow: 0 0 15px rgba(201,168,76,0.1);
+  }
+  .form-group textarea { min-height: 120px; resize: vertical; }
+  .form-group select option { background: var(--dark); }
+
+  .btn-send {
+    width: 100%;
+    background: linear-gradient(135deg, var(--gold-dark), var(--gold), var(--gold-light));
+    color: var(--deep);
+    border: none;
+    border-radius: 12px;
+    padding: 16px;
+    font-family: 'Cairo', sans-serif;
+    font-size: 15px;
+    font-weight: 900;
+    cursor: pointer;
+    transition: all 0.3s;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .btn-send:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(201,168,76,0.4);
+  }
+
+  /* ===== CART SIDEBAR ===== */
+  .cart-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    z-index: 5000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+    backdrop-filter: blur(5px);
+  }
+  .cart-overlay.open { opacity: 1; pointer-events: all; }
+
+  .cart-sidebar {
+    position: fixed;
+    right: -420px;
+    top: 0; bottom: 0;
+    width: 420px;
+    background: var(--dark);
+    border-left: 1px solid var(--card-border);
+    z-index: 5001;
+    transition: right 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: flex;
+    flex-direction: column;
+    padding: 30px;
+    overflow: hidden;
+  }
+  .cart-sidebar.open { right: 0; }
+
+  .cart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--card-border);
+  }
+  .cart-title {
+    font-family: 'Cinzel Decorative', cursive;
+    font-size: 18px;
+    color: var(--gold);
+  }
+  .cart-close {
+    width: 35px; height: 35px;
+    border-radius: 50%;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .cart-close:hover { color: var(--accent); border-color: var(--accent); }
+
+  .cart-items { flex: 1; overflow-y: auto; }
+  .cart-item {
+    display: flex;
+    gap: 15px;
+    padding: 15px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    align-items: center;
+  }
+  .cart-item-emoji {
+    font-size: 35px;
+    width: 60px;
+    text-align: center;
+    background: var(--card-bg);
+    border-radius: 10px;
+    padding: 5px;
+  }
+  .cart-item-info { flex: 1; }
+  .cart-item-name { color: white; font-weight: 600; font-size: 14px; }
+  .cart-item-price { color: var(--gold); font-size: 13px; margin-top: 3px; }
+  .cart-item-qty {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+  }
+  .qty-btn {
+    width: 24px; height: 24px;
+    border-radius: 6px;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    color: var(--gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 700;
+    transition: all 0.2s;
+  }
+  .qty-btn:hover { background: rgba(201,168,76,0.1); }
+  .qty-num { color: white; font-size: 13px; width: 20px; text-align: center; }
+  .cart-item-remove {
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: 13px;
+    transition: color 0.2s;
+  }
+  .cart-item-remove:hover { color: var(--accent); }
+
+  .cart-empty {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-muted);
+  }
+  .cart-empty i { font-size: 50px; color: var(--card-border); display: block; margin-bottom: 15px; }
+
+  .cart-footer {
+    padding-top: 20px;
+    border-top: 1px solid var(--card-border);
+  }
+  .cart-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  .cart-total-label { color: var(--text-muted); font-size: 14px; }
+  .cart-total-price {
+    font-family: 'Cinzel Decorative', cursive;
+    font-size: 22px;
+    color: var(--gold);
+  }
+  .btn-checkout {
+    width: 100%;
+    background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+    color: var(--deep);
+    border: none;
+    border-radius: 12px;
+    padding: 16px;
+    font-family: 'Cairo', sans-serif;
+    font-size: 14px;
+    font-weight: 900;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  .btn-checkout:hover { box-shadow: 0 8px 25px rgba(201,168,76,0.4); transform: translateY(-2px); }
+
+  /* ===== FOOTER ===== */
+  footer {
+    background: var(--darker);
+    border-top: 1px solid var(--card-border);
+    padding: 60px 40px 30px;
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 50px;
+    max-width: 1200px;
+    margin: 0 auto 50px;
+  }
+
+  @media (max-width: 900px) {
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 550px) {
+    .footer-grid { grid-template-columns: 1fr; }
+    .hero-stats { gap: 30px; }
+    .contact-grid { grid-template-columns: 1fr; gap: 30px; }
+  }
+
+  .footer-brand .logo-main { font-size: 22px; }
+  .footer-brand p {
+    color: var(--text-muted);
+    font-size: 13px;
+    line-height: 1.8;
+    margin-top: 15px;
+    font-family: 'Amiri', serif;
+    font-size: 15px;
+  }
+
+  .footer-social {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
+  }
+  .social-btn {
+    width: 40px; height: 40px;
+    border-radius: 10px;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-decoration: none;
+  }
+  .social-btn:hover {
+    background: rgba(201,168,76,0.1);
+    border-color: rgba(201,168,76,0.3);
+    color: var(--gold);
+    transform: translateY(-3px);
+  }
+
+  .footer-col h4 {
+    font-family: 'Cinzel Decorative', cursive;
+    font-size: 13px;
+    color: var(--gold);
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+  }
+  .footer-col ul { list-style: none; }
+  .footer-col ul li {
+    margin-bottom: 10px;
+  }
+  .footer-col ul li a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 13px;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .footer-col ul li a:hover {
+    color: var(--gold);
+    padding-left: 5px;
+  }
+
+  .footer-bottom {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-top: 30px;
+    border-top: 1px solid var(--card-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: gap;
+    gap: 20px;
+  }
+  .footer-bottom p {
+    color: var(--text-muted);
+    font-size: 12px;
+  }
+  .footer-bottom span { color: var(--gold); }
+
+  /* ===== TOAST NOTIFICATION ===== */
+  .toast-container {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    pointer-events: none;
+  }
+  .toast {
+    background: var(--card-bg);
+    border: 1px solid rgba(201,168,76,0.3);
+    border-radius: 12px;
+    padding: 14px 24px;
+    color: white;
+    font-size: 14px;
+    font-family: 'Cairo', sans-serif;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    animation: toastIn 0.4s ease, toastOut 0.4s ease 2.6s forwards;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+  }
+  .toast i { color: var(--gold); font-size: 18px; }
+  @keyframes toastIn {
+    from { opacity: 0; transform: translateY(20px) scale(0.9); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  @keyframes toastOut {
+    to { opacity: 0; transform: translateY(20px) scale(0.9); }
+  }
+
+  /* ===== QUICK VIEW MODAL ===== */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    z-index: 6000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+    backdrop-filter: blur(10px);
+    padding: 20px;
+  }
+  .modal-overlay.open { opacity: 1; pointer-events: all; }
+
+  .modal-box {
+    background: var(--dark);
+    border: 1px solid var(--card-border);
+    border-radius: 24px;
+    max-width: 700px;
+    width: 100%;
+    padding: 40px;
+    position: relative;
+    transform: scale(0.9);
+    transition: transform 0.3s;
+    overflow: hidden;
+  }
+  .modal-overlay.open .modal-box { transform: scale(1); }
+
+  .modal-close {
+    position: absolute;
+    top: 20px; right: 20px;
+    width: 35px; height: 35px;
+    border-radius: 50%;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.2s;
+  }
+  .modal-close:hover { color: var(--accent); border-color: var(--accent); }
+
+  .modal-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    align-items: center;
+  }
+  @media (max-width: 600px) { .modal-content { grid-template-columns: 1fr; } }
+
+  .modal-emoji {
+    font-size: 100px;
+    text-align: center;
+    background: var(--card-bg);
+    border-radius: 20px;
+    padding: 30px;
+    border: 1px solid var(--card-border);
+  }
+  .modal-product-name {
+    font-family: 'Cinzel Decorative', cursive;
+    font-size: 22px;
+    color: white;
+    margin-bottom: 10px;
+  }
+  .modal-cat { color: var(--gold); font-size: 11px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 15px; }
+  .modal-desc { color: var(--text-muted); font-size: 14px; line-height: 1.7; margin-bottom: 20px; font-family: 'Amiri', serif; font-size: 16px; }
+  .modal-stars { color: var(--gold); margin-bottom: 15px; }
+  .modal-pricing { margin-bottom: 25px; }
+  .modal-original { font-size: 13px; color: var(--text-muted); text-decoration: line-through; }
+  .modal-price {
+    font-family: 'Cinzel Decorative', cursive;
+    font-size: 28px;
+    color: var(--gold);
+  }
+
+  /* ===== ANIMATIONS ===== */
+  @keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* WHATSAPP FLOAT */
+  .wa-float {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 4000;
+    width: 60px; height: 60px;
+    background: #25D366;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 28px;
+    text-decoration: none;
+    box-shadow: 0 5px 25px rgba(37,211,102,0.5);
+    animation: wa-bounce 2s ease-in-out infinite;
+    transition: all 0.3s;
+  }
+  .wa-float:hover { transform: scale(1.1); box-shadow: 0 8px 35px rgba(37,211,102,0.7); }
+  @keyframes wa-bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+  .wa-float:hover { animation: none; }
+
+  /* SCROLL TO TOP */
+  .scroll-top {
+    position: fixed;
+    bottom: 100px;
+    right: 30px;
+    z-index: 4000;
+    width: 45px; height: 45px;
+    background: rgba(201,168,76,0.15);
+    border: 1px solid rgba(201,168,76,0.3);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gold);
+    font-size: 18px;
+    cursor: pointer;
+    transition: all 0.3s;
+    opacity: 0;
+  }
+  .scroll-top.visible { opacity: 1; }
+  .scroll-top:hover {
+    background: rgba(201,168,76,0.3);
+    transform: translateY(-3px);
+  }
+
+  /* SECTION DIVIDER */
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    opacity: 0.2;
+    margin: 0 40px;
+  }
+</style>
+</head>
+<body>
+
+<!-- CURSOR -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-trail" id="cursorTrail"></div>
+
+<!-- PARTICLES -->
+<canvas id="particles-canvas"></canvas>
+
+<!-- TOAST CONTAINER -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- ===== HEADER ===== -->
+<header>
+  <div class="logo-container">
+    <span class="logo-arabic">✦ مكة المكرمة ✦</span>
+    <div class="logo-main">MAKA AL MUKARAMA</div>
+    <span class="logo-sub">Dharka · Kabaha · Hidaha</span>
+  </div>
+
+  <nav>
+    <a href="#products">Alaabta</a>
+    <a href="#hidaha">Hidaha</a>
+    <a href="#features">Adeegyada</a>
+    <a href="#contact">Xiriir</a>
+    <a href="#" class="nav-cart" onclick="toggleCart(event)">
+      <i class="fas fa-shopping-bag"></i> Basket
+      <span class="cart-badge" id="cartBadge">0</span>
+    </a>
+  </nav>
+</header>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="hero-bg-pattern"></div>
+  <div class="hero-glow"></div>
+
+  <div class="hero-content">
+    <div class="hero-badge">✦ Magaalada Muqdisho · Somalia ✦</div>
+    <h1 class="hero-title">
+      <span class="line1">MAKA AL MUKARAMA</span>
+      <span class="line2">Dukaan Dharka & Kabaha</span>
+    </h1>
+    <p class="hero-sub">
+      الجودة الأصيلة · Tayada Aslaha · Dhar iyo Kabo Tayo Sarraysa<br>
+      Dharka Casriga & Hidaha Soomaaliyeed — Kalsooni & Qurux
+    </p>
+    <div class="hero-btns">
+      <a href="#products" class="btn-primary"><i class="fas fa-shopping-bag"></i> &nbsp;Alaabta Dabool</a>
+      <a href="#contact" class="btn-outline"><i class="fas fa-phone"></i> &nbsp;Nala Soo Xiriir</a>
+    </div>
+
+    <div class="hero-stats">
+      <div class="stat-item">
+        <span class="stat-number" data-count="500">0</span>
+        <span class="stat-label">Macmiil Faraxsan</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number" data-count="20">0</span>
+        <span class="stat-label">Nooc Alaab</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number" data-count="5">0</span>
+        <span class="stat-label">Sano Khibrad</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number" data-count="100">0</span>
+        <span class="stat-label">% Tayo Fiican</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker-content" id="tickerContent">
+    <span class="ticker-item"><i class="fas fa-tag"></i> DISCOUNT HORE IYO HADDA — Alaab kasta qiimihiisa hoos u dhacay!</span>
+    <span class="ticker-item"><i class="fas fa-truck"></i> Gaadiid bilaash ah — Muqdisho meel walba!</span>
+    <span class="ticker-item"><i class="fas fa-star"></i> Dhar iyo Kabo Tayo Sarraysa — MAKA AL MUKARAMA!</span>
+    <span class="ticker-item"><i class="fas fa-phone"></i> Wac: +252906935287 | +252907689620</span>
+    <span class="ticker-item"><i class="fas fa-gem"></i> Hidaha Soomaaliyeed — Guntiino, Macawis & Kabo Casri ah!</span>
+    <span class="ticker-item"><i class="fab fa-whatsapp"></i> WhatsApp: wa.me/qr/PQ6UXFL5CKR7H1</span>
+    <!-- Repeat for seamless loop -->
+    <span class="ticker-item"><i class="fas fa-tag"></i> DISCOUNT HORE IYO HADDA — Alaab kasta qiimihiisa hoos u dhacay!</span>
+    <span class="ticker-item"><i class="fas fa-truck"></i> Gaadiid bilaash ah — Muqdisho meel walba!</span>
+    <span class="ticker-item"><i class="fas fa-star"></i> Dhar iyo Kabo Tayo Sarraysa — MAKA AL MUKARAMA!</span>
+    <span class="ticker-item"><i class="fas fa-phone"></i> Wac: +252906935287 | +252907689620</span>
+    <span class="ticker-item"><i class="fas fa-gem"></i> Hidaha Soomaaliyeed — Guntiino, Macawis & Kabo Casri ah!</span>
+    <span class="ticker-item"><i class="fab fa-whatsapp"></i> WhatsApp: wa.me/qr/PQ6UXFL5CKR7H1</span>
+  </div>
+</div>
+
+<!-- ===== PRODUCTS SECTION ===== -->
+<section class="section" id="products">
+  <div class="section-header reveal">
+    <span class="section-eyebrow">✦ Alaabteena ✦</span>
+    <h2 class="section-title">Dhar & Kabo <span>Tayo Sarraysa</span></h2>
+    <div class="section-line"></div>
+  </div>
+
+  <!-- INVENTORY BAR -->
+  <div class="inventory-bar reveal">
+    <div class="inv-item">
+      <span class="inv-count" id="totalStock">20</span>
+      <div class="inv-label">Nooc Alaab</div>
+      <div class="inv-progress"><div class="inv-bar" style="width:100%"></div></div>
+    </div>
+    <div class="inv-item">
+      <span class="inv-count" id="availableCount">16</span>
+      <div class="inv-label">La Heli Karo</div>
+      <div class="inv-progress"><div class="inv-bar" style="width:80%"></div></div>
+    </div>
+    <div class="inv-item">
+      <span class="inv-count" id="soldCount">47</span>
+      <div class="inv-label">La Gatay (Maanta)</div>
+      <div class="inv-progress"><div class="inv-bar" id="soldBar" style="width:65%; background:linear-gradient(90deg,#e63946,#ff6b6b)"></div></div>
+    </div>
+    <div class="inv-item">
+      <span class="inv-count">$0</span>
+      <div class="inv-label">Delivery Cost</div>
+      <div class="inv-progress"><div class="inv-bar" style="width:100%; background:linear-gradient(90deg,#2ecc71,#27ae60)"></div></div>
+    </div>
+  </div>
+
+  <!-- PROMO BANNER -->
+  <div class="promo-banner reveal">
+    <div class="promo-text">
+      <div class="promo-icon">🔥</div>
+      <div>
+        <div class="promo-title">XAYEYSIIS GAARKA AH — DISCOUNT BAAXADLEH!</div>
+        <div class="promo-desc">Hada oo keli ah: Alaab kasta 20–40% ka arzan — Alaabada kooban bay ku badan tahay!</div>
+      </div>
+    </div>
+    <div class="countdown">
+      <div class="cd-block">
+        <span class="cd-num" id="cdH">08</span>
+        <span class="cd-label">SXR</span>
+      </div>
+      <div class="cd-block">
+        <span class="cd-num" id="cdM">45</span>
+        <span class="cd-label">DQQ</span>
+      </div>
+      <div class="cd-block">
+        <span class="cd-num" id="cdS">30</span>
+        <span class="cd-label">DQ</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- FILTER TABS -->
+  <div class="filter-tabs reveal">
+    <button class="filter-tab active" onclick="filterProducts('all', this)">Dhamaan</button>
+    <button class="filter-tab" onclick="filterProducts('casri', this)">Dhar Casri</button>
+    <button class="filter-tab" onclick="filterProducts('hidaha', this)">Hidaha Soomaaliyeed</button>
+    <button class="filter-tab" onclick="filterProducts('kabo', this)">Kabaha</button>
+    <button class="filter-tab" onclick="filterProducts('casual', this)">Casual</button>
+  </div>
+
+  <!-- PRODUCT GRID -->
+  <div class="products-grid" id="productsGrid">
+    <!-- Products injected by JS -->
+  </div>
+</section>
+
+<!-- DIVIDER -->
+<div class="divider"></div>
+
+<!-- ===== FEATURES ===== -->
+<section class="section features-section" id="features">
+  <div class="section-header reveal">
+    <span class="section-eyebrow">✦ Adeegyadeena ✦</span>
+    <h2 class="section-title">Maxaa <span>Naga Kala Sareeya?</span></h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="features-grid">
+    <div class="feature-card reveal">
+      <div class="feature-icon">🚚</div>
+      <h3 class="feature-title">Delivery Xawli</h3>
+      <p class="feature-desc">Muqdisho meel walba gaadiid bilaash ah. Dalabka samee — saacad gudaheeda la gaarsiiyaa.</p>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon">💎</div>
+      <h3 class="feature-title">Tayada Ugu Sarraysa</h3>
+      <p class="feature-desc">Dhar iyo Kabo laga keenay goobaha ugu fiican adduunka. Quality check kasta la sameeyo.</p>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon">🔄</div>
+      <h3 class="feature-title">Dib-u-celinta Fudud</h3>
+      <p class="feature-desc">Haddaad la qanaaxsanin alaabta, 7 maalmood gudahooda dib u celi — lacag dib u hel.</p>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon">💬</div>
+      <h3 class="feature-title">Support 24/7</h3>
+      <p class="feature-desc">Waqti kasta nala soo xiriir. WhatsApp, Taleefon ama Email — kaalmo degdeg ah.</p>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon">🏷️</div>
+      <h3 class="feature-title">Qiimo Jaban</h3>
+      <p class="feature-desc">Tayo sarraysa, qiimo la gabi karo. Discount joogto ah macaamiisha joogta ah.</p>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon">🎁</div>
+      <h3 class="feature-title">Xayeysiis Gaar</h3>
+      <p class="feature-desc">Diiwaangeli bugta — xayaysiis gaar ah iyo alaab dishkoon ah hel maalmood kasta.</p>
+    </div>
+  </div>
+</section>
+
+<!-- DIVIDER -->
+<div class="divider"></div>
+
+<!-- ===== TESTIMONIALS ===== -->
+<section class="section testimonials-section">
+  <div class="section-header reveal">
+    <span class="section-eyebrow">✦ Macaamiisha ✦</span>
+    <h2 class="section-title">Macaamiisha <span>Waa Maxay Odhaaheen?</span></h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="testimonials-grid">
+    <div class="testimonial-card reveal">
+      <div class="testimonial-stars">★★★★★</div>
+      <p class="testimonial-text">Wallaahi dukaan aad u fiican! Kabo iyo dhar tayo aad u sarraysa. Qiimihuna aad u jaban. Weligey halkan ka iibsanayaa!</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">A</div>
+        <div>
+          <div class="author-name">Axmed Cali</div>
+          <div class="author-loc">📍 Muqdisho, Xamar Weyne</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial-card reveal">
+      <div class="testimonial-stars">★★★★★</div>
+      <p class="testimonial-text">Macawiskii waxaan dalbaday maalin gudaheeda baa la ii keenay. Quality gaar ah. MAKA AL MUKARAMA ayan raacayaa!</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">M</div>
+        <div>
+          <div class="author-name">Maxamed Xasan</div>
+          <div class="author-loc">📍 Muqdisho, Hodan</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial-card reveal">
+      <div class="testimonial-stars">★★★★★</div>
+      <p class="testimonial-text">Kabihii sports-ka ee aan dalbaday — bilaa fiican! Qiimaha discountka ah waa mid aan maanfa lahayn. Shukran!</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">O</div>
+        <div>
+          <div class="author-name">Omar Farah</div>
+          <div class="author-loc">📍 Muqdisho, Wadajir</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DIVIDER -->
+<div class="divider"></div>
+
+<!-- ===== CONTACT ===== -->
+<section class="section contact-section" id="contact">
+  <div class="section-header reveal">
+    <span class="section-eyebrow">✦ Nala Soo Xiriir ✦</span>
+    <h2 class="section-title">Nala <span>Kala Soo Xiriir</span></h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="contact-grid">
+    <div class="contact-info reveal">
+      <h3>Halkan Naga Heli Kartaa</h3>
+      <p>Su'aal ma qabtaa? Alaab dalbanaysaa? Ama xog dheeraad ah? Nala soo xiriir — waxaan kaa caawineynaa si degdeg ah!</p>
+
+      <a class="contact-item" href="tel:+252906935287">
+        <div class="contact-icon ci-phone"><i class="fas fa-phone"></i></div>
+        <div>
+          <div class="contact-text">+252 906 935 287</div>
+          <div class="contact-sub">Taleefon Koowaad — Waqti kasta</div>
+        </div>
+      </a>
+
+      <a class="contact-item" href="tel:+252907689620">
+        <div class="contact-icon ci-phone"><i class="fas fa-phone"></i></div>
+        <div>
+          <div class="contact-text">+252 907 689 620</div>
+          <div class="contact-sub">Taleefon Labaad — Backup</div>
+        </div>
+      </a>
+
+      <a class="contact-item" href="mailto:Kingfarhaani155@gmail.com">
+        <div class="contact-icon ci-email"><i class="fas fa-envelope"></i></div>
+        <div>
+          <div class="contact-text">Kingfarhaani155@gmail.com</div>
+          <div class="contact-sub">Gmail — Weydiin faahfaahsan</div>
+        </div>
+      </a>
+
+      <a class="contact-item" href="https://wa.me/qr/PQ6UXFL5CKR7H1" target="_blank">
+        <div class="contact-icon ci-wa"><i class="fab fa-whatsapp"></i></div>
+        <div>
+          <div class="contact-text">WhatsApp — Iska Soo Dir</div>
+          <div class="contact-sub">Taabo si toos ugu gal WhatsApp-ka</div>
+        </div>
+      </a>
+    </div>
+
+    <div class="contact-form-wrap reveal">
+      <div class="form-group">
+        <label>Magacaaga</label>
+        <input type="text" placeholder="Geli magacaaga...">
+      </div>
+      <div class="form-group">
+        <label>Taleefankaaga</label>
+        <input type="tel" placeholder="+252...">
+      </div>
+      <div class="form-group">
+        <label>Nooca Alaabta</label>
+        <select>
+          <option>Dhar Casri</option>
+          <option>Dhar Hidaha Soomaaliyeed</option>
+          <option>Kabaha Casriga</option>
+          <option>Kabaha Sports</option>
+          <option>Kabo Hidaha</option>
+          <option>Wax kale</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Farriintaada</label>
+        <textarea placeholder="Noo sheeg maxaad rabto — alaabta, cabbirka, xaaladda..."></textarea>
+      </div>
+      <button class="btn-send" onclick="sendMessage()">
+        <i class="fas fa-paper-plane"></i> &nbsp; DIR FARRIINTA
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="logo-main" style="font-size:22px">MAKA AL MUKARAMA</div>
+      <p>Dukaan ku takhasusay dharka iyo kabaha raga — casriga iyo hidaha soomaaliyeed labadaba. Tayada ugu sarraysa, qiimaha ugu jaban.</p>
+      <div class="footer-social">
+        <a href="https://wa.me/qr/PQ6UXFL5CKR7H1" target="_blank" class="social-btn"><i class="fab fa-whatsapp"></i></a>
+        <a href="mailto:Kingfarhaani155@gmail.com" class="social-btn"><i class="fas fa-envelope"></i></a>
+        <a href="tel:+252906935287" class="social-btn"><i class="fas fa-phone"></i></a>
+      </div>
+    </div>
+
+    <div class="footer-col">
+      <h4>Alaabta</h4>
+      <ul>
+        <li><a href="#"><i class="fas fa-chevron-right" style="font-size:10px"></i>Dhar Casri</a></li>
+        <li><a href="#"><i class="fas fa-chevron-right" style="font-size:10px"></i>Hidaha Soomaaliyeed</a></li>
+        <li><a href="#"><i class="fas fa-chevron-right" style="font-size:10px"></i>Kabaha Casriga</a></li>
+        <li><a href="#"><i class="fas fa-chevron-right" style="font-size:10px"></i>Kabo Sports</a></li>
+        <li><a href="#"><i class="fas fa-chevron-right" style="font-size:10px"></i>Kabo Hidaha</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h4>Macluumaad</h4>
+      <ul>
+        <li><a href="#"><i class="fas fa-chevron-right" style="font-size:10px"></i>Naga Waran</a></li>
+        <li><a href="#"><i class="fas fa-chevron-right" style="font-size:10px"></i>Siyaasad Return</a></li>
+        <li><a href="#"><i class="fas fa-chevron-right" style="font-size:10px"></i>Delivery Info</a></li>
+        <li><a href="#"><i class="fas fa-chevron-right" style="font-size:10px"></i>FAQ</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h4>Xiriir</h4>
+      <ul>
+        <li><a href="tel:+252906935287"><i class="fas fa-phone" style="font-size:10px"></i>+252 906 935 287</a></li>
+        <li><a href="tel:+252907689620"><i class="fas fa-phone" style="font-size:10px"></i>+252 907 689 620</a></li>
+        <li><a href="mailto:Kingfarhaani155@gmail.com"><i class="fas fa-envelope" style="font-size:10px"></i>Gmail</a></li>
+        <li><a href="https://wa.me/qr/PQ6UXFL5CKR7H1" target="_blank"><i class="fab fa-whatsapp" style="font-size:10px"></i>WhatsApp</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>© 2024 <span>MAKA AL MUKARAMA</span>. Xuquuqda dhammaan way dhowran tahay.</p>
+    <p>Naqshadeeyey si gaar ah — <span>Muqdisho, Somalia 🇸🇴</span></p>
+  </div>
+</footer>
+
+<!-- CART SIDEBAR -->
+<div class="cart-overlay" id="cartOverlay" onclick="toggleCart(event)"></div>
+<div class="cart-sidebar" id="cartSidebar">
+  <div class="cart-header">
+    <div class="cart-title">🛒 Baaskeedkaaga</div>
+    <div class="cart-close" onclick="toggleCart(event)"><i class="fas fa-times"></i></div>
+  </div>
+  <div class="cart-items" id="cartItems">
+    <div class="cart-empty">
+      <i class="fas fa-shopping-bag"></i>
+      <p>Baaskeedka waa madhan yahay</p>
+    </div>
+  </div>
+  <div class="cart-footer">
+    <div class="cart-total">
+      <span class="cart-total-label">Wadarta:</span>
+      <span class="cart-total-price" id="cartTotal">$0</span>
+    </div>
+    <button class="btn-checkout" onclick="checkout()">
+      <i class="fab fa-whatsapp"></i> &nbsp; Dalbo via WhatsApp
+    </button>
+  </div>
+</div>
+
+<!-- QUICK VIEW MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal-box" onclick="event.stopPropagation()">
+    <div class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></div>
+    <div class="modal-content" id="modalContent"></div>
+  </div>
+</div>
+
+<!-- WHATSAPP FLOAT -->
+<a href="https://wa.me/qr/PQ6UXFL5CKR7H1" target="_blank" class="wa-float" title="WhatsApp">
+  <i class="fab fa-whatsapp"></i>
+</a>
+
+<!-- SCROLL TOP -->
+<div class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+  <i class="fas fa-chevron-up"></i>
+</div>
+
+<script>
+// ===================== DATA =====================
+const products = [
+  { id:1, name:'Shaati Casri Cas', cat:'casri', emoji:'👔', desc:'Shaati casri ah oo tayo sarraysa, suuf nadiif ah, cabbirrada kala duwan.', original:45, current:28, discount:38, rating:5, reviews:42, stock:'available', badges:['sale','hot'], stockCount:15 },
+  { id:2, name:'Macawis Soomaaliyeed', cat:'hidaha', emoji:'🧣', desc:'Macawis hidda iyo dhaqan, midabyo kala duwan, suuf fiican oo joogtada ah.', original:35, current:22, discount:37, rating:5, reviews:67, stock:'available', badges:['traditional'], stockCount:20 },
+  { id:3, name:'Kabo Sports Nike', cat:'kabo', emoji:'👟', desc:'Kabo ciyaareed oo tayo sarraysa, fashionka casriga xidho si fiican.', original:80, current:55, discount:31, rating:5, reviews:31, stock:'available', badges:['new'], stockCount:8 },
+  { id:4, name:'Jalabiyo Cad', cat:'hidaha', emoji:'🥻', desc:'Jalabiyo caadi ah oo aad u qurxoon, suuf fiican xidho maalin kasta.', original:60, current:38, discount:37, rating:4, reviews:28, stock:'available', badges:['traditional','sale'], stockCount:12 },
+  { id:5, name:'Kabaha Formal Madow', cat:'kabo', emoji:'👞', desc:'Kabo rasmiyeed, xidho shaqada ama xafladaha, qurux iyo raaxo labadaba.', original:70, current:45, discount:36, rating:5, reviews:55, stock:'available', badges:['hot'], stockCount:6 },
+  { id:6, name:'Shaati Polo Buluug', cat:'casri', emoji:'👕', desc:'Polo shirt casri ah, midabyo kala duwan, suuf nadiif oo xidid fudud.', original:38, current:24, discount:37, rating:4, reviews:38, stock:'available', badges:['sale'], stockCount:18 },
+  { id:7, name:'Guntiino Dhaqanka', cat:'hidaha', emoji:'🎽', desc:'Guntiino dhaqameed ee soomaaliyeed, midabyo kala duwan, xafladaha u habboon.', original:50, current:32, discount:36, rating:5, reviews:91, stock:'low', badges:['traditional','hot'], stockCount:3 },
+  { id:8, name:'Kabo Casual Cagaaran', cat:'kabo', emoji:'👟', desc:'Kabo maalinlaha ah, raaxo iyo qurux, kabo fudud oo dhaqso u xidid karo.', original:55, current:35, discount:36, rating:4, reviews:24, stock:'available', badges:['new'], stockCount:10 },
+  { id:9, name:'Shaati Shirt Dhaadheer', cat:'casri', emoji:'🧥', desc:'Shirt dhaadheer oo casri ah, cilmi-baaris leh, qaabkiisu aad u qurxoon.', original:65, current:42, discount:35, rating:5, reviews:47, stock:'available', badges:['sale'], stockCount:14 },
+  { id:10, name:'Kabo Sandal Arab', cat:'kabo', emoji:'🩴', dest:'Sandal dhaqameed oo Arab ah, raaxada ugu sarraysa, maalinlaha ku xidho.', original:40, current:26, discount:35, rating:4, reviews:33, stock:'available', badges:['traditional'], stockCount:20 },
+  { id:11, name:'Buundo Casri', cat:'casual', emoji:'🩳', desc:'Buundo casri ah oo tayo fiican, cimilada kulul u habboon, cabbirrada kala duwan.', original:30, current:19, discount:37, rating:4, reviews:19, stock:'available', badges:['sale'], stockCount:25 },
+  { id:12, name:'Kabo Running Cad', cat:'kabo', emoji:'🥿', desc:'Kabo ordista oo light ah, luuqda waa fudud, sport iyo casual labadaba.', original:75, current:49, discount:35, rating:5, reviews:62, stock:'low', badges:['hot'], stockCount:4 },
+  { id:13, name:'Shaati T-Shirt Qurux', cat:'casual', emoji:'👕', desc:'T-shirt casri ah, qaabka naqshad ah, noocyo kala duwan, qiime fiican.', original:25, current:16, discount:36, rating:4, reviews:88, stock:'available', badges:['new','sale'], stockCount:30 },
+  { id:14, name:'Dhar Hidda Xagaa', cat:'hidaha', emoji:'🧢', desc:'Dhar hidda ah, xagaaga u habboon, midabyo qurux badan, suuf nool.', original:55, current:35, discount:36, rating:5, reviews:44, stock:'available', badges:['traditional'], stockCount:9 },
+  { id:15, name:'Kabo Loafer Bilaash', cat:'kabo', emoji:'👞', desc:'Loafer dhaqso u xidid karo, qaabkiisu aad u casri, buluug iyo madow.', original:65, current:42, discount:35, rating:4, reviews:27, stock:'available', badges:['new'], stockCount:11 },
+  { id:16, name:'Shaati Dhaqanka Soomaaliyeed', cat:'hidaha', emoji:'🎖️', desc:'Shaati hidda iyo dhaqan, naqshadeysan si gaar ah, xafladaha u habboon.', original:70, current:45, discount:36, rating:5, reviews:73, stock:'low', badges:['traditional','hot'], stockCount:5 },
+  { id:17, name:'Kabo Taan Dhaadheer', cat:'kabo', emoji:'🥾', desc:'Kabo taan dhaadheer, cimilada adag u habboon, tayo sarraysa.', original:90, current:60, discount:33, rating:5, reviews:35, stock:'available', badges:['hot'], stockCount:7 },
+  { id:18, name:'Jogging Suit Casri', cat:'casual', emoji:'🩱', desc:'Jogging suit oo dhammaystiran, sport iyo maalinlaha, nayloon fiican.', original:85, current:55, discount:35, rating:4, reviews:29, stock:'available', badges:['sale'], stockCount:13 },
+  { id:19, name:'Kabo Formal Bunni', cat:'kabo', emoji:'👠', desc:'Kabo rasmiyeed oo bunni, xafladaha iyo shaqada, qaabkiisu waa classic.', original:75, current:48, discount:36, rating:5, reviews:51, stock:'available', badges:['new'], stockCount:8 },
+  { id:20, name:'Reeska Dhaqanka Cad', cat:'hidaha', emoji:'🌟', desc:'Reeska dhaqameed ee cad, maalin gaar ah, xilliga marka aad rabtid inaad muuqato.', original:95, current:62, discount:35, rating:5, reviews:80, stock:'low', badges:['traditional','sale'], stockCount:2 }
+];
+
+// ===================== CART =====================
+let cart = [];
+
+function addToCart(id) {
+  const p = products.find(x => x.id === id);
+  const existing = cart.find(x => x.id === id);
+  if (existing) {
+    existing.qty++;
+  } else {
+    cart.push({ ...p, qty: 1 });
+  }
+  updateCartUI();
+  showToast(`✅ ${p.name} baaskeedka lagu daray!`);
+}
+
+function removeFromCart(id) {
+  cart = cart.filter(x => x.id !== id);
+  updateCartUI();
+}
+
+function changeQty(id, delta) {
+  const item = cart.find(x => x.id === id);
+  if (!item) return;
+  item.qty += delta;
+  if (item.qty <= 0) removeFromCart(id);
+  else updateCartUI();
+}
+
+function updateCartUI() {
+  const badge = document.getElementById('cartBadge');
+  const total = cart.reduce((s, i) => s + i.current * i.qty, 0);
+  const count = cart.reduce((s, i) => s + i.qty, 0);
+  badge.textContent = count;
+
+  document.getElementById('cartTotal').textContent = `$${total}`;
+
+  const container = document.getElementById('cartItems');
+  if (cart.length === 0) {
+    container.innerHTML = `<div class="cart-empty"><i class="fas fa-shopping-bag"></i><p>Baaskeedka waa madhan yahay</p></div>`;
+    return;
+  }
+  container.innerHTML = cart.map(item => `
+    <div class="cart-item">
+      <div class="cart-item-emoji">${item.emoji}</div>
+      <div class="cart-item-info">
+        <div class="cart-item-name">${item.name}</div>
+        <div class="cart-item-price">$${item.current} × ${item.qty} = $${item.current * item.qty}</div>
+        <div class="cart-item-qty">
+          <div class="qty-btn" onclick="changeQty(${item.id},-1)">−</div>
+          <div class="qty-num">${item.qty}</div>
+          <div class="qty-btn" onclick="changeQty(${item.id},1)">+</div>
+        </div>
+      </div>
+      <div class="cart-item-remove" onclick="removeFromCart(${item.id})"><i class="fas fa-trash-alt"></i></div>
+    </div>
+  `).join('');
+}
+
+function toggleCart(e) {
+  if (e) e.preventDefault();
+  document.getElementById('cartSidebar').classList.toggle('open');
+  document.getElementById('cartOverlay').classList.toggle('open');
+}
+
+function checkout() {
+  if (cart.length === 0) { showToast('⚠️ Baaskeedka waa madhan yahay!'); return; }
+  const total = cart.reduce((s, i) => s + i.current * i.qty, 0);
+  const items = cart.map(i => `${i.emoji} ${i.name} x${i.qty} ($${i.current * i.qty})`).join('\n');
+  const msg = encodeURIComponent(`Asalaamu Calaykum! Dalabkan ayaan soo dirayaa:\n\n${items}\n\nWadarta: $${total}\n\nMahadsanid 🙏`);
+  window.open(`https://wa.me/252906935287?text=${msg}`, '_blank');
+}
+
+// ===================== PRODUCTS RENDER =====================
+let currentFilter = 'all';
+let wishlist = new Set();
+
+function renderProducts(filter = 'all') {
+  currentFilter = filter;
+  const grid = document.getElementById('productsGrid');
+  const filtered = filter === 'all' ? products : products.filter(p => p.cat === filter);
+
+  grid.innerHTML = filtered.map((p, idx) => {
+    const wl = wishlist.has(p.id);
+    const badgeHTML = p.badges.map(b => `<span class="badge badge-${b}">${b === 'sale' ? 'SALE' : b === 'new' ? 'NEW' : b === 'hot' ? '🔥 HOT' : '🏛 HIDAHA'}</span>`).join('');
+    const stockClass = p.stock === 'available' ? 'stock-available' : 'stock-low';
+    const stockText = p.stock === 'available' ? `✓ ${p.stockCount} kuwo jira` : `⚠ ${p.stockCount} oo keli`;
+    const stars = '★'.repeat(p.rating) + '☆'.repeat(5 - p.rating);
+
+    return `
+      <div class="product-card reveal" style="animation-delay:${idx * 0.05}s" data-cat="${p.cat}">
+        <div class="product-badge">${badgeHTML}</div>
+        <div class="product-wishlist ${wl ? 'active' : ''}" onclick="toggleWishlist(${p.id}, this)">
+          <i class="fas fa-heart"></i>
+        </div>
+        <div class="product-img-wrap">
+          <div class="product-emoji">${p.emoji}</div>
+          <div class="product-img-overlay"></div>
+          <div class="product-stock ${stockClass}">${stockText}</div>
+        </div>
+        <div class="product-body">
+          <div class="product-cat">${p.cat === 'hidaha' ? '🏛 Hidaha Soomaaliyeed' : p.cat === 'kabo' ? '👟 Kabaha' : p.cat === 'casri' ? '👔 Dhar Casri' : '👕 Casual'}</div>
+          <div class="product-name">${p.name}</div>
+          <div class="product-desc">${p.desc || ''}</div>
+          <div class="product-stars">${stars} <span>(${p.reviews} qiimayn)</span></div>
+          <div class="product-pricing">
+            <div class="price-block">
+              <span class="price-original">$${p.original} — Qiimihii hore</span>
+              <span class="price-current">$${p.current}</span>
+            </div>
+            <span class="price-discount">-${p.discount}% DISCOUNT</span>
+          </div>
+          <div class="product-actions">
+            <button class="btn-add-cart" onclick="addToCart(${p.id})">
+              <i class="fas fa-cart-plus"></i> Ku Dar
+            </button>
+            <button class="btn-quick-view" onclick="openModal(${p.id})" title="Eeg Dheeraad">
+              <i class="fas fa-eye"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  // Re-trigger reveal animations
+  setTimeout(() => {
+    document.querySelectorAll('#productsGrid .reveal').forEach((el, i) => {
+      setTimeout(() => el.classList.add('visible'), i * 60);
+    });
+  }, 50);
+}
+
+function filterProducts(cat, btn) {
+  document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  renderProducts(cat);
+}
+
+function toggleWishlist(id, el) {
+  if (wishlist.has(id)) {
+    wishlist.delete(id);
+    el.classList.remove('active');
+    showToast('💔 La bilaabay liiska xiisaha!');
+  } else {
+    wishlist.add(id);
+    el.classList.add('active');
+    showToast('❤️ Liiska xiisaha lagu daray!');
+  }
+}
+
+// ===================== MODAL =====================
+function openModal(id) {
+  const p = products.find(x => x.id === id);
+  const stars = '★'.repeat(p.rating) + '☆'.repeat(5 - p.rating);
+  document.getElementById('modalContent').innerHTML = `
+    <div class="modal-emoji">${p.emoji}</div>
+    <div>
+      <div class="modal-cat">${p.cat === 'hidaha' ? '🏛 Hidaha Soomaaliyeed' : p.cat === 'kabo' ? '👟 Kabaha' : p.cat === 'casri' ? '👔 Dhar Casri' : '👕 Casual'}</div>
+      <div class="modal-product-name">${p.name}</div>
+      <div class="modal-stars">${stars} (${p.reviews} qiimayn)</div>
+      <div class="modal-desc">${p.desc}</div>
+      <div class="modal-pricing">
+        <div class="modal-original">Qiimihii hore: $${p.original}</div>
+        <div class="modal-price">Hadda: $${p.current} <span style="font-size:14px;color:var(--accent)">-${p.discount}%</span></div>
+      </div>
+      <div class="product-actions" style="margin-top:20px">
+        <button class="btn-add-cart" style="padding:14px 24px" onclick="addToCart(${p.id}); closeModal()">
+          <i class="fas fa-cart-plus"></i> Ku Dar Baaskeedka
+        </button>
+      </div>
+    </div>
+  `;
+  document.getElementById('modalOverlay').classList.add('open');
+}
+
+function closeModal(e) {
+  if (!e || e.target === document.getElementById('modalOverlay')) {
+    document.getElementById('modalOverlay').classList.remove('open');
+  }
+}
+
+// ===================== TOAST =====================
+function showToast(msg) {
+  const container = document.getElementById('toastContainer');
+  const toast = document.createElement('div');
+  toast.className = 'toast';
+  toast.innerHTML = `<i class="fas fa-check-circle"></i> ${msg}`;
+  container.appendChild(toast);
+  setTimeout(() => toast.remove(), 3100);
+}
+
+// ===================== CURSOR =====================
+const cursor = document.getElementById('cursor');
+const trail = document.getElementById('cursorTrail');
+let mx = 0, my = 0, tx = 0, ty = 0;
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  cursor.style.left = mx - 6 + 'px';
+  cursor.style.top = my - 6 + 'px';
+});
+function animTrail() {
+  tx += (mx - tx) * 0.15;
+  ty += (my - ty) * 0.15;
+  trail.style.left = tx - 15 + 'px';
+  trail.style.top = ty - 15 + 'px';
+  requestAnimationFrame(animTrail);
+}
+animTrail();
+document.addEventListener('mousedown', () => cursor.style.transform = 'scale(0.7)');
+document.addEventListener('mouseup', () => cursor.style.transform = 'scale(1)');
+
+// ===================== PARTICLES =====================
+const canvas = document.getElementById('particles-canvas');
+const ctx = canvas.getContext('2d');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; });
+
+const particles = Array.from({length: 60}, () => ({
+  x: Math.random() * canvas.width,
+  y: Math.random() * canvas.height,
+  r: Math.random() * 1.5 + 0.3,
+  dx: (Math.random() - 0.5) * 0.3,
+  dy: (Math.random() - 0.5) * 0.3,
+  o: Math.random() * 0.5 + 0.1
+}));
+
+function animParticles() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  particles.forEach(p => {
+    p.x += p.dx; p.y += p.dy;
+    if (p.x < 0 || p.x > canvas.width) p.dx *= -1;
+    if (p.y < 0 || p.y > canvas.height) p.dy *= -1;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(201,168,76,${p.o})`;
+    ctx.fill();
+  });
+  requestAnimationFrame(animParticles);
+}
+animParticles();
+
+// ===================== SCROLL REVEAL =====================
+function revealOnScroll() {
+  document.querySelectorAll('.reveal:not(#productsGrid .reveal)').forEach(el => {
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight - 80) el.classList.add('visible');
+  });
+}
+window.addEventListener('scroll', revealOnScroll);
+revealOnScroll();
+
+// Scroll top button
+window.addEventListener('scroll', () => {
+  document.getElementById('scrollTop').classList.toggle('visible', window.scrollY > 400);
+});
+
+// ===================== COUNTER ANIMATION =====================
+function animateCounters() {
+  document.querySelectorAll('[data-count]').forEach(el => {
+    const target = parseInt(el.getAttribute('data-count'));
+    let current = 0;
+    const step = target / 60;
+    const interval = setInterval(() => {
+      current = Math.min(current + step, target);
+      el.textContent = Math.floor(current) + (target === 100 ? '' : '+');
+      if (current >= target) clearInterval(interval);
+    }, 30);
+  });
+}
+setTimeout(animateCounters, 1000);
+
+// ===================== COUNTDOWN =====================
+let cdSeconds = 8 * 3600 + 45 * 60 + 30;
+setInterval(() => {
+  if (cdSeconds <= 0) cdSeconds = 24 * 3600;
+  cdSeconds--;
+  const h = Math.floor(cdSeconds / 3600);
+  const m = Math.floor((cdSeconds % 3600) / 60);
+  const s = cdSeconds % 60;
+  document.getElementById('cdH').textContent = String(h).padStart(2, '0');
+  document.getElementById('cdM').textContent = String(m).padStart(2, '0');
+  document.getElementById('cdS').textContent = String(s).padStart(2, '0');
+}, 1000);
+
+// ===================== SOLD COUNTER =====================
+let sold = 47;
+setInterval(() => {
+  if (Math.random() < 0.3) {
+    sold++;
+    document.getElementById('soldCount').textContent = sold;
+  }
+}, 8000);
+
+// ===================== FORM SEND =====================
+function sendMessage() {
+  showToast('📤 Farriintaada la diray! Xoogaa yar kadib baa lagaa soo wacayaa.');
+}
+
+// ===================== INIT =====================
+renderProducts('all');
+</script>
+</body>
+</html>
